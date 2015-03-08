@@ -1,7 +1,5 @@
 package com.google.devrel.training.conference.spi;
 
-import static com.google.devrel.training.conference.service.OfyService.ofy;
-
 import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.config.ApiMethod.HttpMethod;
@@ -12,7 +10,8 @@ import com.google.devrel.training.conference.domain.Profile;
 import com.google.devrel.training.conference.form.ProfileForm;
 import com.google.devrel.training.conference.form.ProfileForm.TeeShirtSize;
 import com.googlecode.objectify.Key;
-import com.googlecode.objectify.ObjectifyService;
+
+import static com.google.devrel.training.conference.service.OfyService.ofy;
 
 /**
  * Defines conference APIs.
@@ -86,7 +85,12 @@ public class ConferenceApi {
         }
         // Create a new Profile entity from the
         // userId, displayName, mainEmail and teeShirtSize
-        Profile profile = new Profile(userId, displayName, mainEmail, teeShirtSize);
+       // Profile profile = new Profile(userId, displayName, mainEmail, teeShirtSize);
+        Profile profile = getProfile(user);
+        if (profile == null)
+            profile = new Profile(userId, displayName, mainEmail, teeShirtSize);
+        else
+            //    profile.update(displayName,teeShirtSize);
 
         // TODO 3 (In Lesson 3)
         // Save the Profile entity in the datastore
